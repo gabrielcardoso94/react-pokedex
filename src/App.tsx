@@ -1,7 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { GlobalStyle } from "./styles/global";
+
 export function App() {
   return (
-    <div>
-      <h1>Projeto Pokedex com React</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      
+      <GlobalStyle />
+    </BrowserRouter>
   )
 }
