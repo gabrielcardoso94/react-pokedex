@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-
-interface PokemonProps {
-    id: number,
-    name: string,
-    image: string,
-}
+import { Pokemon } from "../../components/Pokemon";
+import { MainContainer } from "./styles";
 
 export function Home() {
     const [pokedex, setPokedex] = useState<PokemonProps[]>([]);    
@@ -12,13 +8,14 @@ export function Home() {
     async function getPokemon() {
         const pokemons = [];
 
-        for(let i = 1; i <= 3; i++)  {
+        for(let i = 1; i <= 30; i++)  {
             const api = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`);
             const apiJson = await api.json();
             const pokemon: PokemonProps = {
                 id: apiJson.id,
                 name: apiJson.name,
-                image: apiJson.sprites.other.dream_world.front_default
+                image: apiJson.sprites.other.dream_world.front_default,
+                type: apiJson.types[0].type.name
             }
 
 
@@ -38,10 +35,13 @@ export function Home() {
     })
 
     return (
-        <div>
-            <ul>
-                {pokedex.map(pokemon => <li>{`${pokemon.id} - ${pokemon.name} - `}<img src={pokemon.image} alt={pokemon.name} width={70} /></li>)}
-            </ul>
-        </div>
+        <MainContainer>
+            {pokedex.map(pokemon => 
+                <Pokemon key={pokemon.id} 
+                        name={pokemon.name} 
+                        image={pokemon.image} 
+                        type={pokemon.type} 
+                        />)}
+        </MainContainer>
     )
 }
